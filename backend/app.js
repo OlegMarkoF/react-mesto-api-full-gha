@@ -14,7 +14,7 @@ const {
 const errorHandler = require('./middlewares/errors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const { PORT = 80 } = process.env;
+const { PORT = 3001 } = process.env;
 const app = express();
 
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
@@ -25,14 +25,13 @@ mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(requestLogger);
 
 app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Сервер сейчас упадёт');
   }, 0);
 });
-
-app.use(requestLogger);
 
 app.post('/signin', validateLogin, login);
 app.post('/signup', validateUser, createUser);
@@ -44,7 +43,6 @@ app.use('/*', () => {
 });
 
 app.use(errorLogger);
-
 app.use(errors());
 app.use(errorHandler);
 
