@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const path = require('path');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
 const users = require('./routes/users');
@@ -39,10 +40,10 @@ app.get('/crash-test', () => {
 app.post('/signin', validateLogin, login);
 app.post('/signup', validateUser, createUser);
 
-// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/users', auth, users);
-app.use('/cards', auth, cards);
+app.use('/users/api', auth, users);
+app.use('/cards/api', auth, cards);
 app.use('/*', () => {
   throw new NotFoundError('Страница не найдена');
 });
