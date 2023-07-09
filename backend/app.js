@@ -42,8 +42,8 @@ app.post('/signup', validateUser, createUser);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/users/api', auth, users);
-app.use('/cards/api', auth, cards);
+app.use('/api', auth, users);
+app.use('/api', auth, cards);
 app.use('/*', () => {
   throw new NotFoundError('Страница не найдена');
 });
