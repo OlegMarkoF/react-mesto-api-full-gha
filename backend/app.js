@@ -38,8 +38,8 @@ app.get('/crash-test', () => {
 app.post('/signin', validateLogin, login);
 app.post('/signup', validateUser, createUser);
 
-app.use('/users', auth, users);
-app.use('/cards', auth, cards);
+app.use('/users/api', auth, users);
+app.use('/cards/api', auth, cards);
 app.use('/*', () => {
   throw new NotFoundError('Страница не найдена');
 });
