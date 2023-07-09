@@ -13,6 +13,7 @@ const {
 } = require('./middlewares/validation');
 const errorHandler = require('./middlewares/errors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+require('dotenv').config();
 
 const { PORT = 3001 } = process.env;
 const app = express();
@@ -38,8 +39,10 @@ app.get('/crash-test', () => {
 app.post('/signin', validateLogin, login);
 app.post('/signup', validateUser, createUser);
 
-app.use('/users/api', auth, users);
-app.use('/cards/api', auth, cards);
+// app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/users', auth, users);
+app.use('/cards', auth, cards);
 app.use('/*', () => {
   throw new NotFoundError('Страница не найдена');
 });
