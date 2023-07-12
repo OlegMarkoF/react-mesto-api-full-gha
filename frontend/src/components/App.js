@@ -38,6 +38,7 @@ function App() {
 
   useEffect(() => {
     tokenCheck()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
   useEffect(() => {
@@ -193,7 +194,7 @@ function App() {
   }
   
   const tokenCheck = () => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
       Auth.checkToken(token)
       .then((res) => {

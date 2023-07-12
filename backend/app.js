@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
-const cookieParser = require('cookie-parser');
+const cors = require('cors');
 const { errors } = require('celebrate');
 const users = require('./routes/users');
 const cards = require('./routes/cards');
@@ -13,13 +13,12 @@ const {
   validateUser, validateLogin,
 } = require('./middlewares/validation');
 const errorHandler = require('./middlewares/errors');
+const helmet = require('helmet');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 require('dotenv').config();
 
 const { PORT = 3001 } = process.env;
 const app = express();
-
-// http://api.markov.project.nomoreparties.sbs
 
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
   useNewUrlParser: true,
@@ -28,7 +27,8 @@ mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
+app.use(cors());
+app.use(helmet());
 app.use(requestLogger);
 
 app.get('/crash-test', () => {

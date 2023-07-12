@@ -89,7 +89,7 @@ class Api {
 }
 
 export const api = new Api({
-  baseUrl: 'https://markov.project.nomoreparties.sbs',
+  baseUrl: 'https://api.markov.project.nomoredomains.work',
   headers: {
     authorization: `Bearer ${localStorage.getItem('token')}`,
     'Content-Type': 'application/json'
