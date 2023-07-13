@@ -23,4 +23,3 @@ module.exports = (req, res, next) => {
   }
   return next();
 };
-// Эта запись здесь просто так
