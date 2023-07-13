@@ -1,9 +1,11 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const { errors } = require('celebrate');
 const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 const users = require('./routes/users');
 const cards = require('./routes/cards');
 const { login, createUser } = require('./controllers/users');
@@ -15,10 +17,16 @@ const {
 } = require('./middlewares/validation');
 const errorHandler = require('./middlewares/errors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-require('dotenv').config();
 
 const { PORT = 3001 } = process.env;
 const app = express();
+
+const limiter = rateLimit({
+  windowMs: 1000,
+  max: 5000,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
   useNewUrlParser: true,
@@ -47,6 +55,7 @@ app.use(cookieParser({
   httpOnly: true,
   sameSite: 'none',
 }));
+app.use(limiter);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
