@@ -200,9 +200,10 @@ function App() {
       .then((res) => {
         setLoggedIn(true);
         setEmail(res.email);
-        navigate('/');
       })
-      .catch((err) => {console.log(err)})
+      .catch((err) => {
+        console.log(err)
+      })
     }
    }
 

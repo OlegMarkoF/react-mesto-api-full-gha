@@ -32,7 +32,7 @@
   },
   "homepage": "https://github.com/OlegMarkoF/express-mesto-gha",
   "devDependencies": {
-    "eslint": "^8.43.0",
+    "eslint": "^8.44.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.26.0",
     "jest": "^25.5.4",

@@ -1,19 +1,19 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const path = require('path');
-const cors = require('cors');
 const { errors } = require('celebrate');
+const helmet = require('helmet');
 const users = require('./routes/users');
 const cards = require('./routes/cards');
 const { login, createUser } = require('./controllers/users');
 const { NotFoundError } = require('./utils/NotFoundError');
 const auth = require('./middlewares/auth');
+const cors = require('./middlewares/cors');
 const {
   validateUser, validateLogin,
 } = require('./middlewares/validation');
 const errorHandler = require('./middlewares/errors');
-const helmet = require('helmet');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 require('dotenv').config();
 
@@ -25,9 +25,10 @@ mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
   useUnifiedTopology: true,
 });
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({
+  credentials: true,
+  origin: ['https://markov.project.nomoreparties.sbs'],
+}));
 app.use(helmet());
 app.use(requestLogger);
 
@@ -39,6 +40,13 @@ app.get('/crash-test', () => {
 
 app.post('/signin', validateLogin, login);
 app.post('/signup', validateUser, createUser);
+
+app.use(cookieParser({
+  secret: 'oleg-secrets',
+  secure: true,
+  httpOnly: true,
+  sameSite: 'none',
+}));
 
 app.use(express.static(path.join(__dirname, 'public')));
 

@@ -117,24 +117,10 @@ module.exports.getUserById = (req, res, next) => {
 
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
-  User.findOne({ email })
-    .select('+password')
-    .orFail(() => new Error('Пользователь не найден'))
+  User.findUserByCredentials(email, password)
     .then((user) => {
-      bcrypt.compare(String(password), user.password)
-        .then((isValidUser) => {
-          if (isValidUser) {
-            const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'oleg-secrets', { expiresIn: '7d' });
-            res.cookie('jwt', token, {
-              maxAge: 360000,
-              httpOnly: true,
-              sameSite: true,
-            });
-            res.send({ data: user.toJSON() });
-          } else {
-            res.status(403).send({ message: 'Неправильный пароль' });
-          }
-        });
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'oleg-secrets', { expiresIn: '7d' });
+      res.send({ token });
     })
     .catch(next);
 };

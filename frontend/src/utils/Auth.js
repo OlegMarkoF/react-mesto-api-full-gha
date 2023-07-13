@@ -1,5 +1,5 @@
 // const BASE_URL = "https://auth.nomoreparties.co";
-const BASE_URL = "https://api.markov.project.nomoredomains.work";
+const BASE_URL = 'https://api.markov.project.nomoredomains.work';
 
 const sendRequest = (res) => {
   return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)
@@ -10,6 +10,7 @@ export const register = (email, password) => {
     credentials: "include",
     method: "POST",
     headers: {
+      "Accept": "application/json",
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email, password })
@@ -22,6 +23,7 @@ export const authorize = (email, password) => {
     credentials: "include",
     method: "POST",
     headers: {
+      "Accept": "application/json",
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email, password }),
@@ -36,7 +38,7 @@ export const checkToken = (token) => {
     headers: {
       "Accept": "application/json",
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`,
+      "Authorization": `Bearer ${token}`
     }
   })
   .then(sendRequest);

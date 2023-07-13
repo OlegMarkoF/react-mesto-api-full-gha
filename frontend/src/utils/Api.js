@@ -12,7 +12,7 @@ class Api {
   };
 
   getInitialCards() {
-    return fetch(this._url + `cards`, {
+    return fetch(`${this._url}/cards`, {
       method: "GET",
       headers: this._headers,
     })
@@ -20,7 +20,7 @@ class Api {
   }
 
   getUserInfo() {
-    return fetch(this._url + `users/me`, {
+    return fetch(`${this._url}/users/me`, {
       method: "GET",
       headers: this._headers,
     })
@@ -28,7 +28,7 @@ class Api {
   }
 
   newUserInfo(data) {
-    return fetch(this._url + `users/me`, {
+    return fetch(`${this._url}/users/me`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
@@ -40,7 +40,7 @@ class Api {
   }
   
   addCard(data) {
-    return fetch(this._url + `cards`, {
+    return fetch(`${this._url}/cards`, {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify({
@@ -52,7 +52,7 @@ class Api {
   }
 
   deleteCard(id) {
-    return fetch( this._url + `cards/${id}`, {
+    return fetch(`${this._url}/cards/${id}`, {
       method: "DELETE",
       headers: this._headers,
     })
@@ -60,7 +60,7 @@ class Api {
   }
 
   editAvatar({avatar}) {
-    return fetch(this._url + `users/me/avatar`, {
+    return fetch(`${this._url}/users/me/avatar`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
