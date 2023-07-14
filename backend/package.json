@@ -15,6 +15,7 @@
     "bcryptjs": "^2.4.3",
     "celebrate": "^15.0.1",
     "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-rate-limit": "^6.7.1",
@@ -22,6 +23,7 @@
     "helmet": "^7.0.0",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.2.2",
+    "nodejs": "^0.0.0",
     "validator": "^13.9.0",
     "winston": "^3.9.0"
   },

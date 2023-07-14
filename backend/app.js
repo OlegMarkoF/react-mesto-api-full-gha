@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const { errors } = require('celebrate');
+// eslint-disable-next-line import/no-unresolved
+const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const users = require('./routes/users');
@@ -11,7 +13,7 @@ const cards = require('./routes/cards');
 const { login, createUser } = require('./controllers/users');
 const { NotFoundError } = require('./utils/NotFoundError');
 const auth = require('./middlewares/auth');
-const cors = require('./middlewares/cors');
+// const cors = require('./middlewares/cors');
 const {
   validateUser, validateLogin,
 } = require('./middlewares/validation');
@@ -35,7 +37,13 @@ mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
 
 app.use(cors({
   credentials: true,
-  origin: ['https://markov.project.nomoreparties.sbs'],
+  origin: [
+    'https://praktikum.tk',
+    'http://praktikum.tk',
+    'localhost:3000',
+    'markov.project.nomoreparties.sbs',
+    'api.markov.project.nomoredomains.work',
+  ],
 }));
 app.use(helmet());
 app.use(requestLogger);
