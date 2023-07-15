@@ -18,5 +18,6 @@ module.exports = (req, res, next) => {
     throw new UnauthorizedError('Переданы неверные данные');
   }
   req.user = payload;
+
   next();
 };
