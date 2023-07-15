@@ -12,7 +12,6 @@ const cards = require('./routes/cards');
 const { login, createUser } = require('./controllers/users');
 const { NotFoundError } = require('./utils/NotFoundError');
 const auth = require('./middlewares/auth');
-// const cors = require('./middlewares/cors');
 const {
   validateUser, validateLogin,
 } = require('./middlewares/validation');
