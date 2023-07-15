@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const { errors } = require('celebrate');
-// eslint-disable-next-line import/no-unresolved
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
