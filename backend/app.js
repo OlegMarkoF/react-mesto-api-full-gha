@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
-const path = require('path');
+// const path = require('path');
 const { errors } = require('celebrate');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -18,7 +18,6 @@ const {
 const errorHandler = require('./middlewares/errors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const { PORT = 3000 } = process.env;
 const app = express();
 app.use(cors({
   credentials: true,
@@ -80,9 +79,9 @@ app.use(cookieParser({
   sameSite: 'none',
 }));
 
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
 app.use(limiter);
 
-app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`);
+app.listen(3000, () => {
+  console.log('App listening on port 3000');
 });
