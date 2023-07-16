@@ -9,7 +9,7 @@
 
 ## Ссылки на проект
 
-IP-адрес 158.160.41.2
+IP-адрес 158.160.61.17
 
 Frontend https://markov.project.nomoreparties.sbs
 

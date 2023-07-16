@@ -49,7 +49,6 @@ app.use(cors({
 app.use(express.json());
 
 app.use(helmet());
-app.use(requestLogger);
 
 app.get('/crash-test', () => {
   setTimeout(() => {
@@ -57,8 +56,19 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
+app.use(requestLogger);
+
 app.post('/signin', validateLogin, login);
 app.post('/signup', validateUser, createUser);
+app.use('/', auth, users);
+app.use('/', auth, cards);
+app.use('/*', () => {
+  throw new NotFoundError('Страница не найдена');
+});
+
+app.use(errorLogger);
+app.use(errors());
+app.use(errorHandler);
 
 app.use(cookieParser({
   secret: 'oleg-secrets',
@@ -69,15 +79,6 @@ app.use(cookieParser({
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(limiter);
-app.use('/', auth, users);
-app.use('/', auth, cards);
-app.use('/*', () => {
-  throw new NotFoundError('Страница не найдена');
-});
-
-app.use(errorLogger);
-app.use(errors());
-app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
