@@ -21,6 +21,17 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { PORT = 3001 } = process.env;
 const app = express();
+app.use(cors({
+  credentials: true,
+  origin: [
+    'markov.project.nomoreparties.sbs',
+    'api.markov.project.nomoredomains.work',
+    'https://praktikum.tk',
+    'http://praktikum.tk',
+    'localhost:3001',
+    'localhost:3000',
+  ],
+}));
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -34,17 +45,6 @@ mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
 });
 
 app.enable('trust proxy');
-app.use(cors({
-  credentials: true,
-  origin: [
-    'markov.project.nomoreparties.sbs',
-    'api.markov.project.nomoredomains.work',
-    'https://praktikum.tk',
-    'http://praktikum.tk',
-    'localhost:3001',
-    'localhost:3000',
-  ],
-}));
 
 app.use(express.json());
 
