@@ -77,7 +77,7 @@ app.use(cookieParser({
   secret: 'oleg-secrets',
   secure: true,
   httpOnly: true,
-  sameSite: false,
+  sameSite: 'none',
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
