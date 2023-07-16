@@ -21,7 +21,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { PORT = 3001 } = process.env;
 const app = express();
 app.use(cors({
-//  credentials: true,
+  credentials: true,
   origin: [
     'https://markov.project.nomoreparties.sbs',
     'http://markov.project.nomoreparties.sbs',
