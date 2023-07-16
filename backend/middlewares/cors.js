@@ -1,9 +1,12 @@
 const allowedCors = [
   'https://praktikum.tk',
   'http://praktikum.tk',
-  'localhost:3000',
-  'markov.project.nomoreparties.sbs',
-  'api.markov.project.nomoredomains.work',
+  'https://localhost:3000',
+  'https://markov.project.nomoreparties.sbs',
+  'https://api.markov.project.nomoredomains.work',
+  'http://localhost:3000',
+  'http://markov.project.nomoreparties.sbs',
+  'http://api.markov.project.nomoredomains.work',
 ];
 
 module.exports = (req, res, next) => {
