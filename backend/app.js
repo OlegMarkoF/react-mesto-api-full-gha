@@ -3,7 +3,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const path = require('path');
-// const router = require('./routes');
 const { errors } = require('celebrate');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -22,7 +21,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { PORT = 3001 } = process.env;
 const app = express();
 app.use(cors({
-  credentials: true,
+//  credentials: true,
   origin: [
     'markov.project.nomoreparties.sbs',
     'api.markov.project.nomoredomains.work',
