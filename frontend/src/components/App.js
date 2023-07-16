@@ -60,25 +60,6 @@ function App() {
     }
    }, [loggedIn]);
   
-  
-  // useEffect(() => {
-  //   api
-  //     .getInitialCards()
-  //     .then((res) => {
-  //       setCards(res);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, []);
-
-  // useEffect(() => {
-  //   api
-  //     .getUserInfo()
-  //     .then((res) => {
-  //       setCurrentUser(res);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, []);
-
   function handleCardClick(card) {
     setSelectedCard(card);
   }
@@ -187,7 +168,7 @@ function App() {
         localStorage.setItem('token', res.token);
         setLoggedIn(true);
         setEmail(email);
-        navigate("/")
+        navigate("/");
       }
     })
     .catch(() => {
