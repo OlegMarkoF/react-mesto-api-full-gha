@@ -67,10 +67,8 @@ app.use(cookieParser({
   sameSite: false,
 }));
 
-app.use(limiter);
-
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(limiter);
 app.use('/', auth, users);
 app.use('/', auth, cards);
 app.use('/*', () => {
