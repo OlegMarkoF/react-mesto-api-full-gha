@@ -94,7 +94,6 @@ export const api = new Api({
   headers: {
     authorization: `Bearer ${localStorage.getItem('token')}`,
     // authorization: 'f19d5955-fde2-4669-b21e-ba1c6a5901ef',
-    'Accept': 'application/json',
     'Content-Type': 'application/json'
   },
 });
