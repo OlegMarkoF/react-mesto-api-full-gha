@@ -39,6 +39,27 @@ function App() {
   useEffect(() => {
     tokenCheck()
   }, []);
+
+  useEffect(() => {
+    if (loggedIn) {
+      api.getUserInfo()
+        .then((res) => {
+          console.log(res);
+          setCurrentUser(res);
+        })
+        .catch((err) => {
+          console.log(err)
+        });
+      api.getInitialCards()
+        .then((res) => {
+          setCards(res);
+        })
+        .catch((err) => {
+          console.log(err)
+        });
+    }
+   }, [loggedIn]);
+  
   
   useEffect(() => {
     api
@@ -46,7 +67,7 @@ function App() {
       .then((res) => {
         setCards(res);
       })
-      .catch((err) => console.log(`Ошибка:${err}`));
+      .catch((err) => console.log(err));
   }, []);
 
   useEffect(() => {
@@ -55,7 +76,7 @@ function App() {
       .then((res) => {
         setCurrentUser(res);
       })
-      .catch((err) => console.log(`Ошибка:${err}`));
+      .catch((err) => console.log(err));
   }, []);
 
   function handleCardClick(card) {
@@ -100,7 +121,7 @@ function App() {
             state.map((c) => (c._id === card._id ? newCard : c))
           );
         })
-        .catch((err) => console.log(`Ошибка:${err}`));
+        .catch((err) => console.log(err));
     } else {
       api
         .disLikeCard(card._id)
@@ -109,7 +130,7 @@ function App() {
             state.map((c) => (c._id === card._id ? newCard : c))
           );
         })
-        .catch((err) => console.log(`Ошибка:${err}`));
+        .catch((err) => console.log(err));
     }
   }
 
@@ -120,7 +141,7 @@ function App() {
         setCards(cards.filter((item) => item !== cardDelete));
         closeAllPopups();
       })
-      .catch((err) => console.log(`Ошибка:${err}`));
+      .catch((err) => console.log(err));
   }
 
   function handleUpdateUser(data) {
@@ -130,7 +151,7 @@ function App() {
         setCurrentUser(res);
         closeAllPopups();
       })
-      .catch((err) => console.log(`Ошибка:${err}`));
+      .catch((err) => console.log(err));
   }
 
   function handleUpdateAvatar(avatar) {
@@ -140,7 +161,7 @@ function App() {
         setCurrentUser(res);
         closeAllPopups();
       })
-      .catch((err) => console.log(`Ошибка:${err}`));
+      .catch((err) => console.log(err));
   }
 
   function handleAddPlaceSubmit(card) {
@@ -150,7 +171,7 @@ function App() {
         setCards([newCard, ...cards]);
         closeAllPopups();
       })
-      .catch((err) => console.log(`Ошибка:${err}`));
+      .catch((err) => console.log(err));
   }
 
   function handleLogout() {
@@ -191,9 +212,9 @@ function App() {
       setMessage({text: 'Что-то пошло не так! Попробуйте ещё раз.', img: unSuccessfully})
     })
   }
-  
+
   const tokenCheck = () => {
-    const token = localStorage.getItem("token");
+    let token = localStorage.getItem('token');
     if (token) {
       Auth.checkToken(token)
       .then((res) => {

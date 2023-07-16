@@ -6,7 +6,7 @@ class Api {
 
   _sendRequest(res) {
     if (res.ok) {
-      return res.json()
+      return res.json();
     }
     return Promise.reject(`Ошибка: ${res.status}`)
   };
@@ -95,7 +95,7 @@ export const api = new Api({
     authorization: `Bearer ${localStorage.getItem('token')}`,
     // authorization: 'f19d5955-fde2-4669-b21e-ba1c6a5901ef',
     'Content-Type': 'application/json'
-  }
+  },
 });
 
 
