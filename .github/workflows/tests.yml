@@ -61,7 +61,7 @@ jobs:
       with:
         mongodb-version: '4.4'
     - name: Installing Dependencies
-      run: cd backend&&npm i
+      run: cd backend&&npm i --force
     - name: Installing wait-port
       run: npm install -g wait-port
     - name: Run server
