@@ -23,12 +23,16 @@ const app = express();
 app.use(cors({
 //  credentials: true,
   origin: [
-    'markov.project.nomoreparties.sbs',
-    'api.markov.project.nomoredomains.work',
+    'https://markov.project.nomoreparties.sbs',
+    'http://markov.project.nomoreparties.sbs',
+    'https://api.markov.project.nomoredomains.work',
+    'http://api.markov.project.nomoredomains.work',
     'https://praktikum.tk',
     'http://praktikum.tk',
-    'localhost:3001',
-    'localhost:3000',
+    'https://localhost:3001',
+    'https://localhost:3000',
+    'http://localhost:3001',
+    'http://localhost:3000',
   ],
 }));
 
