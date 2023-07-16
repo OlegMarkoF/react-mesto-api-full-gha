@@ -64,7 +64,7 @@ app.use(cookieParser({
   secret: 'oleg-secrets',
   secure: true,
   httpOnly: true,
-  sameSite: 'none',
+  sameSite: false,
 }));
 
 app.use(limiter);
