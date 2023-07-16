@@ -29,9 +29,7 @@ app.use(cors({
     'http://api.markov.project.nomoredomains.work',
     'https://praktikum.tk',
     'http://praktikum.tk',
-    'https://localhost:3001',
     'https://localhost:3000',
-    'http://localhost:3001',
     'http://localhost:3000',
   ],
 }));
