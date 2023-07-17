@@ -1,8 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-const cookieParser = require('cookie-parser');
-// const path = require('path');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -46,6 +46,8 @@ mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
   useNewUrlParser: true,
 });
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.enable('trust proxy');
 
 app.use(express.json());
@@ -72,14 +74,13 @@ app.use(errorLogger);
 app.use(errors());
 app.use(errorHandler);
 
-app.use(cookieParser({
-  secret: 'oleg-secrets',
-  secure: true,
-  httpOnly: true,
-  sameSite: 'none',
-}));
+// app.use(cookieParser({
+//   secret: 'oleg-secrets',
+//   secure: true,
+//   httpOnly: true,
+//   sameSite: 'none',
+// }));
 
-// app.use(express.static(path.join(__dirname, 'public')));
 app.use(limiter);
 
 app.listen(3000, () => {

@@ -1,4 +1,3 @@
-// const BASE_URL = "https://auth.nomoreparties.co";
 const BASE_URL = 'https://api.markov.project.nomoredomains.work';
 
 const sendRequest = (res) => {
@@ -11,7 +10,7 @@ export const register = (email, password) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ email, password })
+    body: JSON.stringify({email, password})
   })
     .then(sendRequest);
 };
@@ -22,7 +21,7 @@ export const authorize = (email, password) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({email, password}),
   })
     .then(sendRequest);
 };
