@@ -155,16 +155,16 @@ function App() {
       .catch((err) => console.log(err));
   }
 
-  function handleLogout() {
+  const handleLogout = () => {
     localStorage.removeItem('token');
     setLoggedIn(false);
     navigate("/signin")
   }
   
-  function handleLogin(email, password) {
+  const handleLogin = (email, password) => {
     Auth.authorize(email, password)
     .then((res) => {
-      if (res) {
+      if (res.token) {
         localStorage.setItem('token', res.token);
         setLoggedIn(true);
         setEmail(email);
@@ -177,7 +177,7 @@ function App() {
     })
   }
 
-  function handleRegister(email, password) {
+  const handleRegister = (email, password) => {
     Auth.register(email, password)
     .then((res) => {
       if (res) {
