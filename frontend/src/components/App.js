@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import "../index.css";
 import Footer from "./Footer";
@@ -37,7 +37,8 @@ function App() {
   const [message, setMessage] = useState({text: '', img: ''});
 
   useEffect(() => {
-    tokenCheck()
+    tokenCheck();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -194,7 +195,7 @@ function App() {
     })
   }
 
-  const tokenCheck = () => {
+  const tokenCheck = useCallback(() => {
     let token = localStorage.getItem('token');
     if (token) {
       Auth.checkToken(token)
@@ -206,7 +207,8 @@ function App() {
         console.log(err)
       })
     }
-   }
+    return !!token
+   }, []);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
