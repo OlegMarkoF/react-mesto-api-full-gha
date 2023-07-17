@@ -8,6 +8,16 @@ const ConflictError = require('../utils/ConflictError');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
+module.exports.login = (req, res, next) => {
+  const { email, password } = req.body;
+  User.findUserByCredentials(email, password)
+    .then((user) => {
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'oleg-secrets', { expiresIn: '7d' });
+      res.send({ token });
+    })
+    .catch(next);
+};
+
 module.exports.getUsers = (req, res, next) => {
   User.find({})
     .then((users) => {
@@ -125,14 +135,4 @@ module.exports.getUserById = (req, res, next) => {
         next();
       }
     });
-};
-
-module.exports.login = (req, res, next) => {
-  const { email, password } = req.body;
-  User.findUserByCredentials(email, password)
-    .then((user) => {
-      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'oleg-secrets', { expiresIn: '7d' });
-      res.send({ token });
-    })
-    .catch(next);
 };

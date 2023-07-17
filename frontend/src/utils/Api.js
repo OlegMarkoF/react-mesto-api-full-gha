@@ -90,12 +90,12 @@ class Api {
 
 export const api = new Api({
   baseUrl: 'https://api.markov.project.nomoredomains.work',
-  // baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-62/',
   headers: {
-    authorization: `Bearer ${localStorage.getItem('token')}`,
-    // authorization: 'f19d5955-fde2-4669-b21e-ba1c6a5901ef',
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${localStorage.getItem('token')}`
   },
 });
 
 
+  // baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-62/',
+  // authorization: 'f19d5955-fde2-4669-b21e-ba1c6a5901ef',
