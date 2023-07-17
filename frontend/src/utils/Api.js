@@ -92,7 +92,7 @@ export const api = new Api({
   baseUrl: 'https://api.markov.project.nomoredomains.work',
   headers: {
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${localStorage.getItem('token')}`
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
   },
 });
 
