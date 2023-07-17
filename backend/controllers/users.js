@@ -20,6 +20,18 @@ module.exports.getUsers = (req, res, next) => {
     .catch(next);
 };
 
+module.exports.getMe = (req, res, next) => {
+  User.findById(req.user._id)
+    .then((user) => {
+      if (!user) {
+        next(new NotFoundError('Пользователь не найден'));
+      } else {
+        res.send({ data: user });
+      }
+    })
+    .catch(next);
+};
+
 module.exports.createUser = (req, res, next) => {
   const {
     name,

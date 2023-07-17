@@ -7,8 +7,10 @@ const {
   getUserById,
   updateUser,
   updateAvatar,
+  getMe,
 } = require('../controllers/users');
 
+usersRouter.get('/users/me', getMe);
 usersRouter.get('/users', getUsers);
 usersRouter.get('/users/:_id', validateId, getUserById);
 usersRouter.patch('/users/me', validateUserUpdate, updateUser);
