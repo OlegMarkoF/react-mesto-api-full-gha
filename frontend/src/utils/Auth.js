@@ -1,5 +1,5 @@
-// const BASE_URL = 'https://api.markov.project.nomoredomains.work';
-const BASE_URL = 'https://mesto.nomoreparties.co/v1/cohort-62';
+const BASE_URL = 'https://api.markov.project.nomoredomains.work';
+// const BASE_URL = 'https://mesto.nomoreparties.co/v1/cohort-62';
 
 const sendRequest = (res) => {
   return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)
@@ -9,9 +9,11 @@ export const register = (email, password) => {
   return fetch(`${BASE_URL}/signup`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
-    body: JSON.stringify({email, password})
+    body: JSON.stringify({
+      email, password
+    })
   })
     .then(sendRequest);
 };
@@ -22,7 +24,7 @@ export const authorize = (email, password) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({email, password}),
+    body: JSON.stringify({email, password})
   })
     .then(sendRequest);
 };
@@ -32,9 +34,8 @@ export const checkToken = (token) => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`
     }
   })
   .then(sendRequest)
-  .then((data) => (data));
 };

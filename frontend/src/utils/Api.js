@@ -16,7 +16,7 @@ class Api {
       method: "GET",
       headers: this._headers,
     })
-    .then(this._sendRequest)
+    .then(this._sendRequest);
   }
 
   getUserInfo() {
@@ -24,19 +24,19 @@ class Api {
       method: "GET",
       headers: this._headers,
     })
-    .then(this._sendRequest)
+    .then(this._sendRequest);
   }
 
-  newUserInfo(data) {
+  newUserInfo({name, about}) {
     return fetch(`${this._url}/users/me`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
-        name: data.name,
-        about: data.about,
+        name: name,
+        about: about,
       })
     })
-    .then(this._sendRequest)
+    .then(this._sendRequest);
   }
   
   addCard(data) {
@@ -48,7 +48,7 @@ class Api {
         link: data.link,
       })
     })
-    .then(this._sendRequest)
+    .then(this._sendRequest);
   }
 
   deleteCard(id) {
@@ -56,7 +56,7 @@ class Api {
       method: "DELETE",
       headers: this._headers,
     })
-    .then(this._sendRequest)
+    .then(this._sendRequest);
   }
 
   editAvatar({avatar}) {
@@ -67,7 +67,7 @@ class Api {
         avatar: avatar
       })
     })
-    .then(this._sendRequest)
+    .then(this._sendRequest);
   }
 
   likeCard(id) {
@@ -75,7 +75,7 @@ class Api {
       method: "PUT",
       headers: this._headers,
     })
-    .then(this._sendRequest)
+    .then(this._sendRequest);
   }
 
   disLikeCard(id) {
@@ -83,22 +83,22 @@ class Api {
       method: "DELETE",
       headers: this._headers,
     })
-    .then(this._sendRequest)
+    .then(this._sendRequest);
   }
   
 }
 
 export const api = new Api({
-  // baseUrl: 'https://api.markov.project.nomoredomains.work',
-  // headers: {
-  //   'Content-Type': 'application/json',
-  //   'Authorization': `Bearer ${localStorage.getItem('token')}`
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-62',
+  baseUrl: 'https://api.markov.project.nomoredomains.work',
   headers: {
     'Content-Type': 'application/json',
-    authorization: 'f19d5955-fde2-4669-b21e-ba1c6a5901ef',
+    Authorization: `Bearer ${localStorage.getItem('token')}`
   },
 });
 
 
+//   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-62',
+//   headers: {
+//     'Content-Type': 'application/json',
+//     authorization: 'f19d5955-fde2-4669-b21e-ba1c6a5901ef',
   

@@ -38,7 +38,6 @@ function App() {
 
   useEffect(() => {
     tokenCheck();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -179,6 +178,7 @@ function App() {
   const handleRegister = (email, password) => {
     Auth.register(email, password)
       .then((res) => {
+        console.log(res);
         if (res) {
           setLoggedIn(true);
           setIsInfoTooltipPopupOpen(true);
