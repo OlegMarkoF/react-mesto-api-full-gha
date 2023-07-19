@@ -24,7 +24,7 @@ module.exports.getUsers = (req, res, next) => {
       if (!users) {
         next(new UnauthorizedError('Вы не авторизованы'));
       } else {
-        res.send({ data: users });
+        res.send(users);
       }
     })
     .catch(next);
@@ -36,7 +36,7 @@ module.exports.getMe = (req, res, next) => {
       if (!user) {
         next(new NotFoundError('Пользователь не найден'));
       } else {
-        res.send({ data: user });
+        res.send(user);
       }
     })
     .catch(next);
@@ -59,13 +59,11 @@ module.exports.createUser = (req, res, next) => {
       password: hash,
     }))
     .then((user) => res.send({
-      data: {
-        name: user.name,
-        about: user.about,
-        avatar: user.avatar,
-        email: user.email,
-        _id: user._id,
-      },
+      name: user.name,
+      about: user.about,
+      avatar: user.avatar,
+      email: user.email,
+      _id: user._id,
     }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -88,7 +86,7 @@ module.exports.updateUser = (req, res, next) => {
       if (!user) {
         next(new NotFoundError('Пользователь не найден'));
       } else {
-        res.send({ data: user });
+        res.send(user);
       }
     })
     .catch((err) => {
@@ -107,7 +105,7 @@ module.exports.updateAvatar = (req, res, next) => {
       if (!newAvatar) {
         next(new NotFoundError('Пользователь не найден'));
       } else {
-        res.send({ data: newAvatar });
+        res.send(newAvatar);
       }
     })
     .catch((err) => {
@@ -125,7 +123,7 @@ module.exports.getUserById = (req, res, next) => {
       if (!user) {
         next(new NotFoundError('Пользователь по id не найден'));
       } else {
-        res.send({ data: user });
+        res.send(user);
       }
     })
     .catch((err) => {

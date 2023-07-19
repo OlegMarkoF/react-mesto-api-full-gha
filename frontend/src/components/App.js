@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import "../index.css";
 import Footer from "./Footer";
@@ -93,15 +93,14 @@ function App() {
 
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    const isLiked = card.likes.some(i => i === currentUser._id);
     // Отправляем запрос в API и получаем обновлённые данные карточки
     if (!isLiked) {
       api
         .likeCard(card._id)
         .then((newCard) => {
           setCards((state) =>
-            state.map((c) => (c._id === card._id ? newCard : c))
-          );
+            state.map((c) => c._id === card._id ? newCard : c))
         })
         .catch((err) => console.log(err));
     } else {
@@ -109,26 +108,25 @@ function App() {
         .disLikeCard(card._id)
         .then((newCard) => {
           setCards((state) =>
-            state.map((c) => (c._id === card._id ? newCard : c))
-          );
+            state.map((c) => c._id === card._id ? newCard : c))
         })
         .catch((err) => console.log(err));
     }
   }
 
-  function handleDelete() {
-    api
-      .deleteCard(cardDelete._id)
-      .then(() => {
-        setCards(cards.filter((item) => item !== cardDelete));
-        closeAllPopups();
-      })
-      .catch((err) => console.log(err));
+  function handleDelete() { 
+    api 
+      .deleteCard(cardDelete._id) 
+      .then(() => { 
+        setCards(cards.filter((item) => item !== cardDelete)); 
+        closeAllPopups(); 
+      }) 
+      .catch((err) => console.log(`Ошибка:${err}`)); 
   }
 
-  function handleUpdateUser(data) {
+  function handleUpdateUser(name, about) {
     api
-      .newUserInfo(data)
+      .newUserInfo(name, about)
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
@@ -146,11 +144,11 @@ function App() {
       .catch((err) => console.log(err));
   }
 
-  function handleAddPlaceSubmit(card) {
+  function handleAddPlaceSubmit(name, link) {
     api
-      .addCard(card)
-      .then((newCard) => {
-        setCards([newCard, ...cards]);
+      .addCard(name, link)
+      .then((res) => {
+        setCards([res, ...cards]);
         closeAllPopups();
       })
       .catch((err) => console.log(err));
@@ -164,38 +162,38 @@ function App() {
   
   const handleLogin = (email, password) => {
     Auth.authorize(email, password)
-    .then((res) => {
-      if (res.token) {
-        localStorage.setItem('token', res.token);
-        setLoggedIn(true);
-        setEmail(email);
-        navigate("/");
-      }
-    })
-    .catch(() => {
-      setIsInfoTooltipPopupOpen(true);
-      setMessage({text: 'Что-то пошло не так! Попробуйте ещё раз.', img: unSuccessfully})
-    })
+      .then((res) => {
+        if (res.token) {
+          localStorage.setItem('token', res.token);
+          setLoggedIn(true);
+          setEmail(email);
+          navigate("/");
+        }
+      })
+      .catch(() => {
+        setIsInfoTooltipPopupOpen(true);
+        setMessage({text: 'Что-то пошло не так! Попробуйте ещё раз.', img: unSuccessfully})
+      })
   }
 
   const handleRegister = (email, password) => {
     Auth.register(email, password)
-    .then((res) => {
-      if (res) {
-        setLoggedIn(true);
+      .then((res) => {
+        if (res) {
+          setLoggedIn(true);
+          setIsInfoTooltipPopupOpen(true);
+          setMessage({text: 'Вы успешно зарегистрировались!', img: successfully});
+          setEmail(email);
+          navigate("/signin")
+        }
+      })
+      .catch(() => {
         setIsInfoTooltipPopupOpen(true);
-        setMessage({text: 'Вы успешно зарегистрировались!', img: successfully});
-        setEmail(email);
-        navigate("/signin")
-      }
-    })
-    .catch(() => {
-      setIsInfoTooltipPopupOpen(true);
-      setMessage({text: 'Что-то пошло не так! Попробуйте ещё раз.', img: unSuccessfully})
-    })
+        setMessage({text: 'Что-то пошло не так! Попробуйте ещё раз.', img: unSuccessfully})
+      })
   }
 
-  const tokenCheck = useCallback(() => {
+  const tokenCheck = () => {
     let token = localStorage.getItem('token');
     if (token) {
       Auth.checkToken(token)
@@ -207,8 +205,7 @@ function App() {
         console.log(err)
       })
     }
-    return !!token
-   }, []);
+  };
 
   return (
     <CurrentUserContext.Provider value={currentUser}>

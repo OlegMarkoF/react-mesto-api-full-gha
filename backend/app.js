@@ -4,9 +4,10 @@ const mongoose = require('mongoose');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
-const cors = require('cors');
-const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
+// const cors = require('./middlewares/cors');
+const cors = require('cors');
 const users = require('./routes/users');
 const cards = require('./routes/cards');
 const { login, createUser } = require('./controllers/users');
@@ -19,6 +20,11 @@ const errorHandler = require('./middlewares/errors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
+
+mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
+  useNewUrlParser: true,
+});
+
 app.use(cors({
   credentials: true,
   origin: [
@@ -38,21 +44,17 @@ app.use(cors({
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 5000,
-  standardHeaders: true,
-  legacyHeaders: false,
-});
-
-mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
-  useNewUrlParser: true,
 });
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.enable('trust proxy');
-
-app.use(express.json());
+app.use(rateLimit);
 
 app.use(helmet());
+app.use(limiter);
+
+app.use(express.json());
 
 app.get('/crash-test', () => {
   setTimeout(() => {
@@ -81,8 +83,6 @@ app.use(errorHandler);
 //   sameSite: 'none',
 // }));
 
-app.use(limiter);
-
-app.listen(3000, () => {
-  console.log('App listening on port 3000');
+app.listen(3001, () => {
+  console.log('App listening on port 3001');
 });

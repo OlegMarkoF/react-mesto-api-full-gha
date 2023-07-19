@@ -1,4 +1,5 @@
-const BASE_URL = 'https://api.markov.project.nomoredomains.work';
+// const BASE_URL = 'https://api.markov.project.nomoredomains.work';
+const BASE_URL = 'https://mesto.nomoreparties.co/v1/cohort-62';
 
 const sendRequest = (res) => {
   return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)
