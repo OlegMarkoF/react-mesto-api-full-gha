@@ -101,11 +101,11 @@ module.exports.updateUser = (req, res, next) => {
 module.exports.updateAvatar = (req, res, next) => {
   const { avatar } = req.body;
   User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
-    .then((newAvatar) => {
-      if (!newAvatar) {
+    .then((user) => {
+      if (!user) {
         next(new NotFoundError('Пользователь не найден'));
       } else {
-        res.send(newAvatar);
+        res.send(user);
       }
     })
     .catch((err) => {
@@ -118,7 +118,7 @@ module.exports.updateAvatar = (req, res, next) => {
 };
 
 module.exports.getUserById = (req, res, next) => {
-  User.findById(req.params._id)
+  User.findById(req.params.userId)
     .then((user) => {
       if (!user) {
         next(new NotFoundError('Пользователь по id не найден'));

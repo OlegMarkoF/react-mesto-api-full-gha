@@ -18,21 +18,6 @@ const errorHandler = require('./middlewares/errors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
-app.use(cors({
-  credentials: true,
-  origin: [
-    'https://markov.project.nomoreparties.sbs',
-    'http://markov.project.nomoreparties.sbs',
-    'https://api.markov.project.nomoredomains.work',
-    'http://api.markov.project.nomoredomains.work',
-    'https://praktikum.tk',
-    'http://praktikum.tk',
-    'https://localhost:3000',
-    'http://localhost:3000',
-    'https://localhost:3001',
-    'http://localhost:3001',
-  ],
-}));
 
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
   useNewUrlParser: true,
@@ -45,21 +30,38 @@ const limiter = rateLimit({
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// app.use(cors({
+//   credentials: true,
+//   origin: [
+//     'https://markov.project.nomoreparties.sbs',
+//     'http://markov.project.nomoreparties.sbs',
+//     'https://api.markov.project.nomoredomains.work',
+//     'http://api.markov.project.nomoredomains.work',
+//     'https://praktikum.tk',
+//     'http://praktikum.tk',
+//     'https://localhost:3000',
+//     'http://localhost:3000',
+//     'https://localhost:3001',
+//     'http://localhost:3001',
+//   ],
+// }));
+app.use(cors());
+
 app.enable('trust proxy');
 app.use(rateLimit);
 
 app.use(helmet());
 app.use(limiter);
 
-app.use(express.json());
+// app.use(express.json());
+app.use(requestLogger);
 
 app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Сервер сейчас упадёт');
   }, 0);
 });
-
-app.use(requestLogger);
 
 app.post('/signin', validateLogin, login);
 app.post('/signup', validateUser, createUser);
@@ -72,13 +74,6 @@ app.use('/*', () => {
 app.use(errorLogger);
 app.use(errors());
 app.use(errorHandler);
-
-// app.use(cookieParser({
-//   secret: 'oleg-secrets',
-//   secure: true,
-//   httpOnly: true,
-//   sameSite: 'none',
-// }));
 
 app.listen(3000, () => {
   console.log('App listening on port 3000');
