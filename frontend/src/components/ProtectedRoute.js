@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate } from "react-router-dom";
 
 const ProtectedRoute = ({children, loggedIn}) => {
-  return loggedIn ? children : <Navigate to="./signup" replace/>
+  return loggedIn ? children : <Navigate to="./signup"/>
 }
 
 export default ProtectedRoute;
