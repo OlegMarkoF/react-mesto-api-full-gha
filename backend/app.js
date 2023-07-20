@@ -1,12 +1,10 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
-// const cors = require('./middlewares/cors');
 const cors = require('cors');
 const users = require('./routes/users');
 const cards = require('./routes/cards');
@@ -20,11 +18,6 @@ const errorHandler = require('./middlewares/errors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
-
-mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
-  useNewUrlParser: true,
-});
-
 app.use(cors({
   credentials: true,
   origin: [
@@ -40,6 +33,10 @@ app.use(cors({
     'http://localhost:3001',
   ],
 }));
+
+mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
+  useNewUrlParser: true,
+});
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -83,6 +80,6 @@ app.use(errorHandler);
 //   sameSite: 'none',
 // }));
 
-app.listen(3000, () => {
+app.listen(3001, () => {
   console.log('App listening on port 3000');
 });
