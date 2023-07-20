@@ -5,8 +5,8 @@ const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
-// const cors = require('cors');
-const cors = require('./middlewares/cors');
+const cors = require('cors');
+// const cors = require('./middlewares/cors');
 const users = require('./routes/users');
 const cards = require('./routes/cards');
 const { login, createUser } = require('./controllers/users');
@@ -32,22 +32,22 @@ const limiter = rateLimit({
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// app.use(cors({
-//   credentials: true,
-//   origin: [
-//     'https://markov.project.nomoreparties.sbs',
-//     'http://markov.project.nomoreparties.sbs',
-//     'https://api.markov.project.nomoredomains.work',
-//     'http://api.markov.project.nomoredomains.work',
-//     'https://praktikum.tk',
-//     'http://praktikum.tk',
-//     'https://localhost:3000',
-//     'http://localhost:3000',
-//     'https://localhost:3001',
-//     'http://localhost:3001',
-//   ],
-// }));
-app.use(cors());
+app.use(cors({
+  credentials: true,
+  origin: [
+    'https://markov.project.nomoreparties.sbs',
+    'http://markov.project.nomoreparties.sbs',
+    'https://api.markov.project.nomoredomains.work',
+    'http://api.markov.project.nomoredomains.work',
+    'https://praktikum.tk',
+    'http://praktikum.tk',
+    'https://localhost:3000',
+    'http://localhost:3000',
+    'https://localhost:3001',
+    'http://localhost:3001',
+  ],
+}));
+// app.use(cors());
 
 app.enable('trust proxy');
 app.use(rateLimit);
