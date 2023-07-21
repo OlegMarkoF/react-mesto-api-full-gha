@@ -6,7 +6,7 @@ class Api {
 
   _sendRequest(res) {
     if (res.ok) {
-      return res.json();
+      return res.json()
     }
     return Promise.reject(`Ошибка: ${res.status}`)
   };
@@ -16,7 +16,7 @@ class Api {
       method: "GET",
       headers: this._headers,
     })
-    .then(this._sendRequest);
+    .then(this._sendRequest)
   }
 
   getUserInfo() {
@@ -24,19 +24,19 @@ class Api {
       method: "GET",
       headers: this._headers,
     })
-    .then(this._sendRequest);
+    .then(this._sendRequest)
   }
 
-  newUserInfo({name, about}) {
+  newUserInfo(data) {
     return fetch(`${this._url}/users/me`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
-        name: name,
-        about: about,
+        name: data.name,
+        about: data.about,
       })
     })
-    .then(this._sendRequest);
+    .then(this._sendRequest)
   }
   
   addCard(data) {
@@ -48,15 +48,15 @@ class Api {
         link: data.link,
       })
     })
-    .then(this._sendRequest);
+    .then(this._sendRequest)
   }
 
-  deleteCard(cardId) {
-    return fetch(`${this._url}/cards/${cardId}`, {
+  deleteCard(id) {
+    return fetch(`${this._url}/cards/${id}`, {
       method: "DELETE",
       headers: this._headers,
     })
-    .then(this._sendRequest);
+    .then(this._sendRequest)
   }
 
   editAvatar({avatar}) {
@@ -67,39 +67,39 @@ class Api {
         avatar: avatar
       })
     })
-    .then(this._sendRequest);
+    .then(this._sendRequest)
   }
 
-  likeCard(cardId) {
-    return fetch(`${this._url}/cards/likes/${cardId}`, {
+  likeCard(id) {
+    return fetch(`${this._url}/cards/likes/${id}`, {
       method: "PUT",
       headers: this._headers,
     })
-    .then(this._sendRequest);
+    .then(this._sendRequest)
   }
 
-  disLikeCard(cardId) {
-    return fetch(`${this._url}/cards/likes/${cardId}`, {
+  disLikeCard(id) {
+    return fetch(`${this._url}/cards/likes/${id}`, {
       method: "DELETE",
       headers: this._headers,
     })
-    .then(this._sendRequest);
+    .then(this._sendRequest)
   }
   
 }
 
-export const api = new Api({
-  baseUrl: 'https://api.markov.project.nomoredomains.work',
-  headers: {
-    'Content-Type': 'application/json',
-    authorization: `Bearer ${localStorage.getItem('token')}`
-  },
-});
-
 // export const api = new Api({
-//   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-62',
+//   baseUrl: 'https://api.markov.project.nomoredomains.work',
 //   headers: {
 //     'Content-Type': 'application/json',
-//     authorization: 'f19d5955-fde2-4669-b21e-ba1c6a5901ef',
-//   },
+//     Authorization: `Bearer ${localStorage.getItem('token')}`
+//   }
 // });
+
+export const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-62',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: 'f19d5955-fde2-4669-b21e-ba1c6a5901ef'
+  }
+});

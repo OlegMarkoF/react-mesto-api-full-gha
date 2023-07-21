@@ -1,11 +1,11 @@
 require('dotenv').config();
+const cors = require('cors');
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
-const cors = require('cors');
 // const cors = require('./middlewares/cors');
 const users = require('./routes/users');
 const cards = require('./routes/cards');
@@ -45,6 +45,7 @@ app.use(cors({
     'http://localhost:3000',
     'https://localhost:3001',
     'http://localhost:3001',
+    'localhost:3000',
   ],
 }));
 // app.use(cors());
@@ -76,6 +77,6 @@ app.use(errorLogger);
 app.use(errors());
 app.use(errorHandler);
 
-app.listen(3000, () => {
+app.listen(3001, () => {
   console.log('App listening on port 3000');
 });
