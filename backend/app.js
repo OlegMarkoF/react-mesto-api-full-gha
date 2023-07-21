@@ -19,14 +19,13 @@ const errorHandler = require('./middlewares/errors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
-
-mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
-  useNewUrlParser: true,
-});
-
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 5000,
+});
+
+mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
+  useNewUrlParser: true,
 });
 
 app.use(bodyParser.json());
@@ -67,8 +66,8 @@ app.get('/crash-test', () => {
 
 app.post('/signin', validateLogin, login);
 app.post('/signup', validateUser, createUser);
-app.use('/', auth, users);
-app.use('/', auth, cards);
+app.use('/users', auth, users);
+app.use('/cards', auth, cards);
 app.use('/*', () => {
   throw new NotFoundError('Страница не найдена');
 });

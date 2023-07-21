@@ -14,7 +14,7 @@ module.exports.getCards = (req, res, next) => {
 module.exports.createCard = (req, res, next) => {
   const { name, link } = req.body;
   Card.create({ name, link, owner: req.user._id })
-    .then((card) => res.send(card))
+    .then((card) => res.status(201).send(card))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Переданы некорректные данные'));
@@ -69,13 +69,13 @@ module.exports.dislikeCard = (req, res, next) => {
 };
 
 module.exports.deleteCard = (req, res, next) => {
-  Card.findById(req.params.cardId)
+  Card.findById(req.params.id)
     .then((card) => {
       if (card) {
         const ownerId = card.owner.toString();
         const userId = req.user._id;
         if (ownerId === userId) {
-          Card.findByIdAndDelete(req.params.cardId)
+          Card.findByIdAndDelete(req.params.id)
             .then((deleted) => {
               res.status(200).send(deleted);
             })
