@@ -31,7 +31,7 @@ module.exports.getUsers = (req, res, next) => {
 };
 
 module.exports.getMe = (req, res, next) => {
-  User.findById(req.user._id)
+  User.findById(req.user.userId)
     .then((user) => {
       if (!user) {
         next(new NotFoundError('Пользователь не найден'));
@@ -81,7 +81,7 @@ module.exports.createUser = (req, res, next) => {
 module.exports.updateUser = (req, res, next) => {
   const { name, about } = req.body;
 
-  User.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
+  User.findByIdAndUpdate(req.user.userId, { name, about }, { new: true, runValidators: true })
     .then((user) => {
       if (!user) {
         next(new NotFoundError('Пользователь не найден'));
@@ -100,12 +100,12 @@ module.exports.updateUser = (req, res, next) => {
 
 module.exports.updateAvatar = (req, res, next) => {
   const { avatar } = req.body;
-  User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
-    .then((user) => {
-      if (!user) {
+  User.findByIdAndUpdate(req.user.userId, { avatar }, { new: true, runValidators: true })
+    .then((newAvatar) => {
+      if (!newAvatar) {
         next(new NotFoundError('Пользователь не найден'));
       } else {
-        res.send(user);
+        res.send(newAvatar);
       }
     })
     .catch((err) => {
