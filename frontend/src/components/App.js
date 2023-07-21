@@ -193,7 +193,7 @@ function App() {
   }
   
   const tokenCheck = () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
     if (token) {
       Auth.checkToken(token)
       .then((res) => {
