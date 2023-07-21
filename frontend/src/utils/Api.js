@@ -92,7 +92,7 @@ export const api = new Api({
   baseUrl: 'https://api.markov.project.nomoredomains.work',
   headers: {
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${localStorage.getItem('token')}`
+    authorization: `Bearer ${localStorage.getItem('token')}`
   }
 });
 
@@ -100,6 +100,6 @@ export const api = new Api({
 //   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-62',
 //   headers: {
 //     'Content-Type': 'application/json',
-//     Authorization: 'f19d5955-fde2-4669-b21e-ba1c6a5901ef'
+//     authorization: 'f19d5955-fde2-4669-b21e-ba1c6a5901ef'
 //   }
 // });

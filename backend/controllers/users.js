@@ -24,19 +24,19 @@ module.exports.getUsers = (req, res, next) => {
       if (!users) {
         next(new UnauthorizedError('Вы не авторизованы'));
       } else {
-        res.send(users);
+        res.send({ data: users });
       }
     })
     .catch(next);
 };
 
 module.exports.getMe = (req, res, next) => {
-  User.findById(req.user.userId)
+  User.findById(req.user._id)
     .then((user) => {
       if (!user) {
         next(new NotFoundError('Пользователь не найден'));
       } else {
-        res.send(user);
+        res.send({ data: user });
       }
     })
     .catch(next);
@@ -81,12 +81,12 @@ module.exports.createUser = (req, res, next) => {
 module.exports.updateUser = (req, res, next) => {
   const { name, about } = req.body;
 
-  User.findByIdAndUpdate(req.user.userId, { name, about }, { new: true, runValidators: true })
+  User.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
     .then((user) => {
       if (!user) {
         next(new NotFoundError('Пользователь не найден'));
       } else {
-        res.send(user);
+        res.send({ user });
       }
     })
     .catch((err) => {
@@ -100,12 +100,12 @@ module.exports.updateUser = (req, res, next) => {
 
 module.exports.updateAvatar = (req, res, next) => {
   const { avatar } = req.body;
-  User.findByIdAndUpdate(req.user.userId, { avatar }, { new: true, runValidators: true })
-    .then((newAvatar) => {
-      if (!newAvatar) {
+  User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
+    .then((user) => {
+      if (!user) {
         next(new NotFoundError('Пользователь не найден'));
       } else {
-        res.send(newAvatar);
+        res.send({ user });
       }
     })
     .catch((err) => {
@@ -123,7 +123,7 @@ module.exports.getUserById = (req, res, next) => {
       if (!user) {
         next(new NotFoundError('Пользователь по id не найден'));
       } else {
-        res.send(user);
+        res.send({ data: user });
       }
     })
     .catch((err) => {

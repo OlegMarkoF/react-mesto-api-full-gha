@@ -1,5 +1,5 @@
-const BASE_URL = "https://auth.nomoreparties.co";
-// const BASE_URL = 'https://api.markov.project.nomoredomains.work';
+// const BASE_URL = "https://auth.nomoreparties.co";
+const BASE_URL = "https://api.markov.project.nomoredomains.work";
 
 const sendRequest = (res) => {
   return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)
