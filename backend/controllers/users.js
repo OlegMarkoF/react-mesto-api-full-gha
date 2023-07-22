@@ -1,3 +1,4 @@
+require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
@@ -10,10 +11,19 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
-  return User.findUserByCredentials(email, password)
+  User.findOne({ email })
+    .select('+password')
+    .orFail(() => new UnauthorizedError())
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'oleg-secrets', { expiresIn: '7d' });
-      res.send({ token });
+      bcrypt.compare(String(password), user.password)
+        .then((isValidUser) => {
+          if (isValidUser) {
+            const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'oleg-secrets', { expiresIn: '7d' });
+            res.send({ jwt: token });
+          } else {
+            next(new UnauthorizedError());
+          }
+        });
     })
     .catch(next);
 };
@@ -24,7 +34,7 @@ module.exports.getUsers = (req, res, next) => {
       if (!users) {
         next(new UnauthorizedError('Вы не авторизованы'));
       } else {
-        res.send({ data: users });
+        res.send(users);
       }
     })
     .catch(next);
@@ -36,7 +46,7 @@ module.exports.getMe = (req, res, next) => {
       if (!user) {
         next(new NotFoundError('Пользователь не найден'));
       } else {
-        res.send({ data: user });
+        res.send(user);
       }
     })
     .catch(next);
@@ -58,13 +68,7 @@ module.exports.createUser = (req, res, next) => {
       email,
       password: hash,
     }))
-    .then((user) => res.send({
-      name: user.name,
-      about: user.about,
-      avatar: user.avatar,
-      email: user.email,
-      _id: user._id,
-    }))
+    .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Переданные данные некорректны'));
@@ -73,7 +77,7 @@ module.exports.createUser = (req, res, next) => {
       ) {
         next(new ConflictError('Пользователь уже существует'));
       } else {
-        next();
+        next(err);
       }
     });
 };
@@ -86,14 +90,14 @@ module.exports.updateUser = (req, res, next) => {
       if (!user) {
         next(new NotFoundError('Пользователь не найден'));
       } else {
-        res.send({ user });
+        res.send(user);
       }
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Переданы не корректные данные'));
       } else {
-        next();
+        next(err);
       }
     });
 };
@@ -105,14 +109,14 @@ module.exports.updateAvatar = (req, res, next) => {
       if (!user) {
         next(new NotFoundError('Пользователь не найден'));
       } else {
-        res.send({ user });
+        res.send(user);
       }
     })
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
         next(new BadRequestError('Переданы не корректные данные'));
       } else {
-        next();
+        next(err);
       }
     });
 };
@@ -123,14 +127,14 @@ module.exports.getUserById = (req, res, next) => {
       if (!user) {
         next(new NotFoundError('Пользователь по id не найден'));
       } else {
-        res.send({ data: user });
+        res.send(user);
       }
     })
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new BadRequestError('Некорректный id'));
       } else {
-        next();
+        next(err);
       }
     });
 };

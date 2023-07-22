@@ -1,7 +1,7 @@
 class Api {
-  constructor(options) {
-    this._url = options.baseUrl;
-    this._headers = options.headers;
+  constructor({ baseUrl, headers }) {
+    this.url = baseUrl;
+    this.headers = headers;
   }
 
   _sendRequest(res) {
@@ -12,25 +12,25 @@ class Api {
   };
 
   getInitialCards() {
-    return fetch(`${this._url}/cards`, {
+    return fetch(`${this.url}/cards`, {
       method: "GET",
-      headers: this._headers,
+      headers: this.headers,
     })
     .then(this._sendRequest)
   }
 
   getUserInfo() {
-    return fetch(`${this._url}/users/me`, {
+    return fetch(`${this.url}/users/me`, {
       method: "GET",
-      headers: this._headers,
+      headers: this.headers,
     })
     .then(this._sendRequest)
   }
 
   newUserInfo(data) {
-    return fetch(`${this._url}/users/me`, {
+    return fetch(`${this.url}/users/me`, {
       method: "PATCH",
-      headers: this._headers,
+      headers: this.headers,
       body: JSON.stringify({
         name: data.name,
         about: data.about,
@@ -40,48 +40,48 @@ class Api {
   }
   
   addCard(data) {
-    return fetch(`${this._url}/cards`, {
+    return fetch(`${this.url}/cards`, {
       method: "POST",
-      headers: this._headers,
+      headers: this.headers,
       body: JSON.stringify({
         name: data.name,
         link: data.link,
-      })
+      }),
     })
     .then(this._sendRequest)
   }
 
   deleteCard(id) {
-    return fetch(`${this._url}/cards/${id}`, {
+    return fetch(`${this.url}/cards/${id}`, {
       method: "DELETE",
-      headers: this._headers,
+      headers: this.headers,
     })
     .then(this._sendRequest)
   }
 
   editAvatar({avatar}) {
-    return fetch(`${this._url}/users/me/avatar`, {
+    return fetch(`${this.url}/users/me/avatar`, {
       method: "PATCH",
-      headers: this._headers,
+      headers: this.headers,
       body: JSON.stringify({
         avatar: avatar
-      })
+      }),
     })
     .then(this._sendRequest)
   }
 
   likeCard(id) {
-    return fetch(`${this._url}/cards/likes/${id}`, {
+    return fetch(`${this.url}/cards/likes/${id}`, {
       method: "PUT",
-      headers: this._headers,
+      headers: this.headers,
     })
     .then(this._sendRequest)
   }
 
   disLikeCard(id) {
-    return fetch(`${this._url}/cards/likes/${id}`, {
+    return fetch(`${this.url}/cards/likes/${id}`, {
       method: "DELETE",
-      headers: this._headers,
+      headers: this.headers,
     })
     .then(this._sendRequest)
   }

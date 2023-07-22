@@ -90,7 +90,7 @@ function App() {
 
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    const isLiked = card.likes.some((i) => i === currentUser._id);
     // Отправляем запрос в API и получаем обновлённые данные карточки
     if (!isLiked) {
       api
@@ -161,9 +161,9 @@ function App() {
   
   function handleLogin(email, password) {
     Auth.authorize(email, password)
-    .then((res) => {
-      if (res) {
-        localStorage.setItem('token', res.token);
+    .then((data) => {
+      if (data.token) {
+        localStorage.setItem('token', data.token);
         setLoggedIn(true);
         setEmail(email);
         navigate("/")
@@ -194,6 +194,7 @@ function App() {
   
   const tokenCheck = () => {
     const token = localStorage.getItem('token');
+    console.log(token);
     if (token) {
       Auth.checkToken(token)
       .then((res) => {
