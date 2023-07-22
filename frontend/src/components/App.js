@@ -41,22 +41,15 @@ function App() {
   }, []);
   
   useEffect(() => {
-    api
-      .getInitialCards()
-      .then((res) => {
-        setCards(res);
-      })
-      .catch((err) => console.log(`Ошибка:${err}`));
-  }, []);
-
-  useEffect(() => {
-    api
-      .getUserInfo()
-      .then((res) => {
-        setCurrentUser(res);
-      })
-      .catch((err) => console.log(`Ошибка:${err}`));
-  }, []);
+    if (loggedIn) {
+      Promise.all([api.getInitialCards(), api.getUserInfo()])
+        .then(([cardList, userData]) => {
+          setCurrentUser(userData.data);
+          setCards(cardList.data.reverse());
+        })
+        .catch(console.error);
+    }
+  }, [loggedIn])
 
   function handleCardClick(card) {
     setSelectedCard(card);
@@ -97,7 +90,7 @@ function App() {
         .likeCard(card._id)
         .then((newCard) => {
           setCards((state) =>
-            state.map((c) => (c._id === card._id ? newCard : c))
+            state.map((c) => (c._id === card._id ? newCard.data : c))
           );
         })
         .catch((err) => console.log(`Ошибка:${err}`));
@@ -106,7 +99,7 @@ function App() {
         .disLikeCard(card._id)
         .then((newCard) => {
           setCards((state) =>
-            state.map((c) => (c._id === card._id ? newCard : c))
+            state.map((c) => (c._id === card._id ? newCard.data : c))
           );
         })
         .catch((err) => console.log(`Ошибка:${err}`));
@@ -137,7 +130,7 @@ function App() {
     api
       .editAvatar(avatar)
       .then((res) => {
-        setCurrentUser(res);
+        setCurrentUser((userData) => ({ ...userData, avatar: res.data.avatar }));
         closeAllPopups();
       })
       .catch((err) => console.log(`Ошибка:${err}`));
@@ -147,7 +140,7 @@ function App() {
     api
       .addCard(card)
       .then((newCard) => {
-        setCards([newCard, ...cards]);
+        setCards([newCard.data, ...cards]);
         closeAllPopups();
       })
       .catch((err) => console.log(`Ошибка:${err}`));
@@ -162,8 +155,8 @@ function App() {
   function handleLogin(email, password) {
     Auth.authorize(email, password)
     .then((data) => {
-      if (data.token) {
-        localStorage.setItem('token', data.token);
+      if (data.jwt) {
+        localStorage.setItem('token', data.jwt);
         setLoggedIn(true);
         setEmail(email);
         navigate("/")
@@ -199,7 +192,8 @@ function App() {
       Auth.checkToken(token)
       .then((res) => {
         setLoggedIn(true);
-        setEmail(res.email);
+        setEmail(res.data.email);
+        navigate('/', { replace: true })
       })
       .catch((err) => {
         console.log(err)

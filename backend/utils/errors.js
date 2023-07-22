@@ -6,6 +6,7 @@ const INTERNAL_SERVER_ERROR = 500;
 const CONFLICT = 409;
 
 const UNAUTHORIZED_ERROR_MESSAGE = 'Необходима авторизация';
+const INCORRECT_LOGIN = 'Неправильные почта или пароль';
 
 module.exports = {
   BAD_REQUEST,
@@ -15,4 +16,5 @@ module.exports = {
   FORBIDDEN,
   CONFLICT,
   UNAUTHORIZED_ERROR_MESSAGE,
+  INCORRECT_LOGIN,
 };

@@ -26,7 +26,7 @@ jobs:
     - name: Copy Makefile
       run: cp ./web-autotest-public/Makefile ./Makefile
     - name: Installing Dependencies
-      run: cd backend&&npm i --force
+      run: cd backend&&npm i
     - name: Cache test dependencies
       id: cache
       uses: actions/cache@v3
@@ -61,7 +61,7 @@ jobs:
       with:
         mongodb-version: '4.4'
     - name: Installing Dependencies
-      run: cd backend&&npm i --force
+      run: cd backend&&npm i
     - name: Installing wait-port
       run: npm install -g wait-port
     - name: Run server

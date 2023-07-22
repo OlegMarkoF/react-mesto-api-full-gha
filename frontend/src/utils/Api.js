@@ -1,7 +1,6 @@
 class Api {
-  constructor({ baseUrl, headers }) {
+  constructor({ baseUrl }) {
     this.url = baseUrl;
-    this.headers = headers;
   }
 
   _sendRequest(res) {
@@ -14,7 +13,10 @@ class Api {
   getInitialCards() {
     return fetch(`${this.url}/cards`, {
       method: "GET",
-      headers: this.headers,
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`
+      }
     })
     .then(this._sendRequest)
   }
@@ -22,7 +24,10 @@ class Api {
   getUserInfo() {
     return fetch(`${this.url}/users/me`, {
       method: "GET",
-      headers: this.headers,
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`
+      }
     })
     .then(this._sendRequest)
   }
@@ -30,7 +35,10 @@ class Api {
   newUserInfo(data) {
     return fetch(`${this.url}/users/me`, {
       method: "PATCH",
-      headers: this.headers,
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`
+      },
       body: JSON.stringify({
         name: data.name,
         about: data.about,
@@ -42,7 +50,10 @@ class Api {
   addCard(data) {
     return fetch(`${this.url}/cards`, {
       method: "POST",
-      headers: this.headers,
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`
+      },
       body: JSON.stringify({
         name: data.name,
         link: data.link,
@@ -54,7 +65,10 @@ class Api {
   deleteCard(id) {
     return fetch(`${this.url}/cards/${id}`, {
       method: "DELETE",
-      headers: this.headers,
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`
+      },
     })
     .then(this._sendRequest)
   }
@@ -62,7 +76,10 @@ class Api {
   editAvatar({avatar}) {
     return fetch(`${this.url}/users/me/avatar`, {
       method: "PATCH",
-      headers: this.headers,
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`
+      },
       body: JSON.stringify({
         avatar: avatar
       }),
@@ -71,17 +88,23 @@ class Api {
   }
 
   likeCard(id) {
-    return fetch(`${this.url}/cards/likes/${id}`, {
+    return fetch(`${this.url}/cards/${id}/likes`, {
       method: "PUT",
-      headers: this.headers,
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`
+      },
     })
     .then(this._sendRequest)
   }
 
   disLikeCard(id) {
-    return fetch(`${this.url}/cards/likes/${id}`, {
+    return fetch(`${this.url}/cards/${id}/likes`, {
       method: "DELETE",
-      headers: this.headers,
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`
+      },
     })
     .then(this._sendRequest)
   }
@@ -90,10 +113,6 @@ class Api {
 
 export const api = new Api({
   baseUrl: 'https://api.markov.project.nomoredomains.work',
-  headers: {
-    'Content-Type': 'application/json',
-    authorization: `Bearer ${localStorage.getItem('token')}`
-  }
 });
 
 // export const api = new Api({
