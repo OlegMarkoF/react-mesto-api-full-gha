@@ -1,9 +1,10 @@
 const { celebrate, Joi } = require('celebrate');
+const { VALIDATION_REG_EXP_FOR_URL } = require('../utils/config');
 
 module.exports.validateCard = celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
-    link: Joi.string().required(),
+    link: Joi.string().pattern(VALIDATION_REG_EXP_FOR_URL).required(),
   }),
 });
 
@@ -13,19 +14,19 @@ module.exports.validateUser = celebrate({
     password: Joi.string().required(),
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
-    avatar: Joi.string(),
+    avatar: Joi.string().pattern(VALIDATION_REG_EXP_FOR_URL),
   }),
 });
 
 module.exports.validateUserId = celebrate({
   params: Joi.object().keys({
-    userId: Joi.string().alphanum().length(24).hex(),
+    userId: Joi.string().length(24).hex().required(),
   }),
 });
 
 module.exports.validateCardId = celebrate({
   params: Joi.object().keys({
-    cardId: Joi.string().alphanum().length(24).hex(),
+    cardId: Joi.string().length(24).hex().required(),
   }),
 });
 
@@ -38,7 +39,7 @@ module.exports.validateUserUpdate = celebrate({
 
 module.exports.validateAvatar = celebrate({
   body: Joi.object().keys({
-    avatar: Joi.string().required(),
+    avatar: Joi.string().pattern(VALIDATION_REG_EXP_FOR_URL).required(),
   }),
 });
 

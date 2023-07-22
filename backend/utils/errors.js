@@ -5,6 +5,8 @@ const NOT_FOUND = 404;
 const INTERNAL_SERVER_ERROR = 500;
 const CONFLICT = 409;
 
+const UNAUTHORIZED_ERROR_MESSAGE = 'Необходима авторизация';
+
 module.exports = {
   BAD_REQUEST,
   NOT_FOUND,
@@ -12,4 +14,5 @@ module.exports = {
   UNAUTHORIZED,
   FORBIDDEN,
   CONFLICT,
+  UNAUTHORIZED_ERROR_MESSAGE,
 };
