@@ -1,29 +1,34 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-const cookieParser = require('cookie-parser');
-const { celebrate, Joi } = require('celebrate');
+
+const helmet = require('helmet');
+
 const { errors } = require('celebrate');
+const errorHandler = require('./middlewares/errors');
 
-const router = require('./routes');
+const userRoute = require('./routes/users');
+const cardRoute = require('./routes/cards');
 
-const errorHandler = require('./middlwares/error');
+const { login, createUser } = require('./controllers/users');
+const auth = require('./middlewares/auth');
+const cors = require('./middlewares/cors');
+const { validateUser, validateLogin } = require('./middlewares/validation');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
+
+const NotFoundError = require('./utils/NotFoundError');
+const { MONGO_CONNECT_URL, PORT, LIMITER } = require('./utils/config');
 
 const app = express();
-const auth = require('./middlwares/auth');
-const cors = require('./middlwares/cors');
 
-const { RegURL } = require('./utils/constants');
-const { login, createUser } = require('./controllers/users');
-
-const { requestLogger, errorLogger } = require('./middlwares/logger');
-
-mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
+mongoose.connect(MONGO_CONNECT_URL, {
   useNewUrlParser: true,
 });
 
-app.use(express.json());
+app.use(helmet());
+app.use(LIMITER);
 
+app.use(express.json());
 app.use(cors);
 
 app.use(requestLogger);
@@ -34,34 +39,18 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-app.post(
-  '/signup',
-  validationSignup,
-  createUser,
-);
-
-app.post(
-  '/signin',
-  celebrate({
-    body: Joi.object().keys({
-      email: Joi.string().email().required(),
-      password: Joi.string().required(),
-    }),
-  }),
-  login,
-);
-
-app.use(cookieParser());
-app.use(auth);
-app.get('/signout', (req, res) => {
-  res.clearCookie('jwt').send({ message: 'Выход' });
+app.post('/signin', validateLogin, login);
+app.post('/signup', validateUser, createUser);
+app.use('/users', auth, userRoute);
+app.use('/cards', auth, cardRoute);
+app.use('*', auth, (req, res, next) => {
+  next(new NotFoundError('Страница не найдена'));
 });
 
-app.use(router);
 app.use(errorLogger);
 app.use(errors());
 app.use(errorHandler);
 
-app.listen(3000, () => {
-  console.log('Слушаю порт 3000');
+app.listen(PORT, () => {
+  console.log('App listening on port', PORT);
 });
