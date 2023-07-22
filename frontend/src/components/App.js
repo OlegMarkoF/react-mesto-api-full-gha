@@ -120,7 +120,7 @@ function App() {
     api
       .newUserInfo(data)
       .then((res) => {
-        setCurrentUser(res);
+        setCurrentUser(res.data);
         closeAllPopups();
       })
       .catch((err) => console.log(`Ошибка:${err}`));
