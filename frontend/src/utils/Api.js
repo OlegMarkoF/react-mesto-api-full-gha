@@ -114,11 +114,3 @@ class Api {
 export const api = new Api({
   baseUrl: 'https://api.markov.project.nomoredomains.work',
 });
-
-// export const api = new Api({
-//   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-62',
-//   headers: {
-//     'Content-Type': 'application/json',
-//     authorization: 'f19d5955-fde2-4669-b21e-ba1c6a5901ef'
-//   }
-// });
