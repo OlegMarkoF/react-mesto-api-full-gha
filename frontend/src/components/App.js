@@ -47,7 +47,7 @@ function App() {
           setCurrentUser(userData.data);
           setCards(cardList.data.reverse());
         })
-        .catch(console.error);
+        .catch((err) => console.log(`Ошибка:${err}`));
     }
   }, [loggedIn])
 
@@ -187,7 +187,6 @@ function App() {
   
   const tokenCheck = () => {
     const token = localStorage.getItem('token');
-    console.log(token);
     if (token) {
       Auth.checkToken(token)
       .then((res) => {
