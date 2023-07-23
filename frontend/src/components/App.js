@@ -47,7 +47,7 @@ function App() {
           setCurrentUser(userData.data);
           setCards(cardList.data.reverse());
         })
-        .catch((err) => console.log(`Ошибка:${err}`));
+        .catch((err) => console.log(err));
     }
   }, [loggedIn])
 
@@ -172,7 +172,6 @@ function App() {
     Auth.register(email, password)
     .then((res) => {
       if (res) {
-        setLoggedIn(true);
         setIsInfoTooltipPopupOpen(true);
         setMessage({text: 'Вы успешно зарегистрировались!', img: successfully});
         setEmail(email);
